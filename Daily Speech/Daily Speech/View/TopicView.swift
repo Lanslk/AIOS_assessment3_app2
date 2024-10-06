@@ -10,6 +10,9 @@ import SwiftUI
 struct TopicView: View {
     @State private var yourTopic = ""
     
+    @State private var showAlert = false
+    @State private var navigateToRecordView = false
+    
     var body: some View {
         NavigationStack {
             Text("Pick a topic!")
@@ -18,14 +21,35 @@ struct TopicView: View {
             
             Spacer()
             
-            HStack {
+            VStack {
                 TextField("Your Topic", text: $yourTopic)
                     .font(.title2)
                     .padding()
                     .multilineTextAlignment(.center)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
+                Button(action: {
+                    if yourTopic.isEmpty {
+                        showAlert = true  // Show alert if topic is empty
+                    } else {
+                        // navigate to RecordView
+                        navigateToRecordView = true
+                    }
+                }, label: {
+                    Text("Ready to Speech")
+                        .font(.title)
+                })
+                .alert(isPresented: $showAlert) {
+                    Alert(
+                        title: Text("Name Required"),
+                        message: Text("Please enter your topic."),
+                        dismissButton: .default(Text("OK"))
+                    )
+                }
             }
             .padding()
+            .navigationDestination(isPresented: $navigateToRecordView) {
+                RecordView(topic: $yourTopic)
+            }
             
             List {
                 ForEach(categories, id: \.name) { category in
