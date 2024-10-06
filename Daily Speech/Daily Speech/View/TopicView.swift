@@ -30,7 +30,7 @@ struct TopicView: View {
             List {
                 ForEach(categories, id: \.name) { category in
                     // create expandable sections
-                    DisclosureGroup(category.name) {
+                    DisclosureGroup {
                         ForEach(category.topics, id: \.self) { topic in
                             // Display each topic as a text
                             Text(topic)
@@ -38,6 +38,11 @@ struct TopicView: View {
                                 .onTapGesture {
                                     yourTopic = topic
                                 }
+                        }
+                    } label: {
+                        HStack {
+                            Image(systemName: category.icon)
+                            Text(category.name)
                         }
                     }
                     .padding()
