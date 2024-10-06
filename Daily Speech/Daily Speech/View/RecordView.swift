@@ -10,6 +10,8 @@ import SwiftUI
 struct RecordView: View {
     
     @Binding public var topic: String
+    @StateObject private var speechRecognizer = SpeechRecognizer()
+    @State private var isRecording = false
     
     var body: some View {
         VStack {
@@ -19,7 +21,28 @@ struct RecordView: View {
             Text(topic)
                 .font(.title)
             Spacer()
+            
+            // Show recognized text in a Text view
+            Text(speechRecognizer.recognizedText)
+                .padding()
+            
+            // Record button to start and stop recording
+            Button(action: {
+                isRecording.toggle()
+                if isRecording {
+                    speechRecognizer.startRecording()
+                } else {
+                    speechRecognizer.stopRecording()
+                }
+            }) {
+                Text(isRecording ? "Stop Recording" : "Start Recording")
+                    .padding()
+                    .background(isRecording ? Color.red : Color.green)
+                    .foregroundColor(.white)
+                    .clipShape(Capsule())
+            }
         }
+        
     }
 }
 
