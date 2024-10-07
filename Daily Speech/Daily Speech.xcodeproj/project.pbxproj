@@ -254,6 +254,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Daily Speech/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Camera usage will be done! Whenever click on button.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Microphone usage will be done! Whenever click on button.";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Please allow the recognization of the speech for the testing purpose.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -284,6 +285,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Daily Speech/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Camera usage will be done! Whenever click on button.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Microphone usage will be done! Whenever click on button.";
 				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Please allow the recognization of the speech for the testing purpose.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
