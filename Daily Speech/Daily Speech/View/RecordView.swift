@@ -14,7 +14,10 @@ struct RecordView: View {
     @State private var isRecording = false
     
     @State private var showAlert = false
+    @State private var showAlertAPI = false
     @State private var navigateToReviseView = false
+    
+    @State private var revisedContent = ""
     
     var body: some View {
         NavigationStack {
@@ -61,8 +64,17 @@ struct RecordView: View {
                     if speechRecognizer.recognizedText.isEmpty {
                         showAlert = true  // Show alert if topic is empty
                     } else {
-                        // navigate to RecordView
-                        navigateToReviseView = true
+                        sendChatGPTRequest(message: "Please correct the grammar: " + speechRecognizer.recognizedText) { response in
+                            DispatchQueue.main.async {
+                                if (response != nil) {
+                                    revisedContent = response ?? ""
+                                    navigateToReviseView = true
+                                } else {
+                                    showAlertAPI = true
+                                }
+                            }
+                        }
+                        
                     }
                 }, label: {
                     Text("Revise by AI")
@@ -75,9 +87,16 @@ struct RecordView: View {
                         dismissButton: .default(Text("OK"))
                     )
                 }
+                .alert(isPresented: $showAlert) {
+                    Alert(
+                        title: Text("Open AI response"),
+                        message: Text("No response received."),
+                        dismissButton: .default(Text("OK"))
+                    )
+                }
             }
             .navigationDestination(isPresented: $navigateToReviseView) {
-                ReviseView(content: $speechRecognizer.recognizedText)
+                ReviseView(content: $revisedContent)
             }
         }
         
