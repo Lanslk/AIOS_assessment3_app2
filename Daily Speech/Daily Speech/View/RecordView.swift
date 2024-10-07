@@ -33,10 +33,12 @@ struct RecordView: View {
                 //            VideoViewControllerRepresentable()
                 //                .frame(height: 300)
                 
-                
-                // Show recognized text in a Text view
                 ScrollView {
-                    // TextEditor to show and edit the recognized text
+                    Text("Your Speech")
+                        .font(.title)
+                        .padding(.bottom, 5)
+                        .foregroundColor(.mint)
+                    
                     TextEditor(text: $speechRecognizer.recognizedText)
                         .padding()
                         .frame(minHeight: 100, maxHeight: 500)
@@ -104,7 +106,7 @@ struct RecordView: View {
                 }
             }
             .navigationDestination(isPresented: $navigateToReviseView) {
-                ReviseView(content: $revisedContent)
+                ReviseView(origin: $speechRecognizer.recognizedText,content: $revisedContent)
             }
         }
         
