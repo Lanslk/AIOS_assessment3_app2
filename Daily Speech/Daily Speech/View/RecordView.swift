@@ -42,6 +42,7 @@ struct RecordView: View {
                         .frame(minHeight: 100, maxHeight: 500)
                         .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
                 }
+                .padding()
                 Spacer()
                 
                 // Record button to start and stop recording
@@ -62,12 +63,12 @@ struct RecordView: View {
                 
                 Button(action: {
                     if speechRecognizer.recognizedText.isEmpty {
-                        showAlert = true  // Show alert if topic is empty
+                        showAlert = true  // Show alert if content is empty
                     } else {
                         sendChatGPTRequest(message: "Please correct the grammar: " + speechRecognizer.recognizedText) { response in
                             DispatchQueue.main.async {
-                                if (response != nil) {
-                                    revisedContent = response ?? ""
+                                if let response = response {
+                                    revisedContent = response
                                     navigateToReviseView = true
                                 } else {
                                     showAlertAPI = true
@@ -80,19 +81,26 @@ struct RecordView: View {
                     Text("Revise by AI")
                         .font(.title)
                 })
-                .alert(isPresented: $showAlert) {
-                    Alert(
-                        title: Text("Content Required"),
-                        message: Text("Please enter your topic."),
-                        dismissButton: .default(Text("OK"))
-                    )
-                }
-                .alert(isPresented: $showAlert) {
-                    Alert(
-                        title: Text("Open AI response"),
-                        message: Text("No response received."),
-                        dismissButton: .default(Text("OK"))
-                    )
+                .alert(isPresented: Binding<Bool>(
+                    get: { showAlert || showAlertAPI },
+                    set: { _ in
+                        showAlert = false
+                        showAlertAPI = false
+                    }
+                )) {
+                    if showAlert {
+                        return Alert(
+                            title: Text("Content Required"),
+                            message: Text("Please enter your topic."),
+                            dismissButton: .default(Text("OK"))
+                        )
+                    } else {
+                        return Alert(
+                            title: Text("Open AI response"),
+                            message: Text("No response received."),
+                            dismissButton: .default(Text("OK"))
+                        )
+                    }
                 }
             }
             .navigationDestination(isPresented: $navigateToReviseView) {
