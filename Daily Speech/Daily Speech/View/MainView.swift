@@ -10,31 +10,32 @@ import SwiftUI
 struct MainView: View {
     var body: some View {
         NavigationStack {
-            Text("Let's practice English!")
-                .font(.title)
-                .foregroundColor(.mint)
-            
-            Spacer()
             VStack {
+                Text("Let's practice English!")
+                    .font(.title)
+                    .foregroundColor(.mint)
+                
+                Spacer()
                 HStack {
-                    Image(systemName: "rectangle.and.pencil.and.ellipsis")
+                    //Image(systemName: )
                     NavigationLink(
                         destination: TopicView(),
                         label: {
-                            Text("Start practice")
-                            .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)})
+                            CustomRowView(buttonTitle: "Start practice", imageName: "rectangle.and.pencil.and.ellipsis")
+                            })
                     
                 }
-                
+
                 HStack {
-                    Image(systemName: "book.pages")
+                    //Image(systemName: "book.pages")
                     NavigationLink(
                         destination: SavedView(),
                         label: {
-                            Text("Previous practice")
-                            .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)})
+                            CustomRowView(buttonTitle: "Previous practice", imageName: "book.pages")
+                        })
                     
                 }
+                Spacer()
             }
             .font(.title)
             Spacer()
