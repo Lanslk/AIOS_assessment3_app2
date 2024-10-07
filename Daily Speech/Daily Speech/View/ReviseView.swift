@@ -6,10 +6,16 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ReviseView: View {
+    @Environment(\.modelContext) private var context  // Get context from the environment
+    @Binding public var topic: String
     @Binding public var origin: String
     @Binding public var content: String
+    
+    @State private var showAlert = false
+    @State private var navigateToSavedView = false
     
     var body: some View {
         NavigationStack {
@@ -17,6 +23,10 @@ struct ReviseView: View {
                 Text("Revise your speech")
                     .font(.title)
                     .foregroundColor(.mint)
+                
+                Spacer()
+                
+                Text("Topic: \(topic)")
                 
                 Spacer()
                 
@@ -31,7 +41,6 @@ struct ReviseView: View {
                         .frame(minHeight: 200, maxHeight: 200)
                         .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
                 }
-                .padding()
                 
                 ScrollView {
                     Text("Revised")
@@ -44,15 +53,37 @@ struct ReviseView: View {
                         .frame(minHeight: 200, maxHeight: 200)
                         .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
                 }
-                .padding()
                 
-                Text("Save")
+                Button(action: {
+                    if content.isEmpty {
+                        showAlert = true  // Show alert if topic is empty
+                    } else {
+                        // navigate to RecordView
+                        saveActivity(topic: topic, content: content, context: context)
+                        navigateToSavedView = true
+                    }
+                }, label: {
+                    Text("Save Speech")
+                        .font(.title)
+                })
+                .alert(isPresented: $showAlert) {
+                    Alert(
+                        title: Text("Content Required"),
+                        message: Text("Revised content is blank."),
+                        dismissButton: .default(Text("OK"))
+                    )
+                }
+                .navigationDestination(isPresented: $navigateToSavedView) {
+                    SavedView()
+                }
+                
             }
+            .padding()
             
         }
     }
 }
 
 #Preview {
-    ReviseView(origin: .constant("Introducing yourself"), content: .constant("Introduce yourself"))
+    ReviseView(topic: .constant("Introduce yourself"), origin: .constant("Introducing yourself"), content: .constant("Introduce yourself"))
 }

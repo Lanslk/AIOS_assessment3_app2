@@ -12,6 +12,7 @@ struct Daily_SpeechApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .modelContainer(for: Activity.self)
         }
     }
 }

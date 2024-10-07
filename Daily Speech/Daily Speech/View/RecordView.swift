@@ -106,7 +106,7 @@ struct RecordView: View {
                 }
             }
             .navigationDestination(isPresented: $navigateToReviseView) {
-                ReviseView(origin: $speechRecognizer.recognizedText,content: $revisedContent)
+                ReviseView(topic: $topic, origin: $speechRecognizer.recognizedText,content: $revisedContent)
             }
         }
         

@@ -15,14 +15,26 @@ struct MainView: View {
                 .foregroundColor(.mint)
             
             Spacer()
-            
-            HStack {
-                Image(systemName: "bubble.left.and.text.bubble.right")
-                NavigationLink(
-                    destination: TopicView(),
-                    label: {
-                        Text("Start practice")
-                        .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)})
+            VStack {
+                HStack {
+                    Image(systemName: "rectangle.and.pencil.and.ellipsis")
+                    NavigationLink(
+                        destination: TopicView(),
+                        label: {
+                            Text("Start practice")
+                            .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)})
+                    
+                }
+                
+                HStack {
+                    Image(systemName: "book.pages")
+                    NavigationLink(
+                        destination: SavedView(),
+                        label: {
+                            Text("Previous practice")
+                            .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)})
+                    
+                }
             }
             .font(.title)
             Spacer()
