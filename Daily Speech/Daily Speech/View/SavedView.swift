@@ -12,6 +12,7 @@ struct SavedView: View {
     @Environment(\.modelContext) private var context
     @Query var activities: [Activity]
     
+    
     var body: some View {
         VStack {
             Text("Saved Speech")
@@ -22,31 +23,14 @@ struct SavedView: View {
             ScrollView {
                 LazyVStack {
                     ForEach(Array(activities.prefix(10).enumerated()), id: \.element) { index, data in
-                        // create expandable sections
-                        DisclosureGroup {
-                            Text(data.content)
-                        } label: {
+                        NavigationLink(destination: ActivityDetailView(activity: data)) {
                             HStack {
-                                Text(String(data.topic)
-                                )
+                                Text(data.topic)
+                                    .font(.headline)
                             }
-                        }
-                        .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                            // Edit button
-                            Button(action: {
-                                // Handle the edit action here
-                            }) {
-                                Label("Edit", systemImage: "pencil")
-                            }
-                            .tint(.blue)  // Optional: set the edit button color
-                            
-                            // Delete button
-                            Button(role: .destructive, action: {
-                                // Handle the delete action here
-                                //deleteActivity(data)
-                            }) {
-                                Label("Delete", systemImage: "trash")
-                            }
+                            .padding()
+                            .background(Color.mint.opacity(0.2))
+                            .cornerRadius(10)
                         }
                     }
                 }
