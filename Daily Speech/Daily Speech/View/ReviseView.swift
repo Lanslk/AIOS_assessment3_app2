@@ -19,6 +19,8 @@ struct ReviseView: View {
     @State private var navigateToSavedView = false
     @StateObject private var speechRecognizer = SpeechRecognizer()  // Create an instance of SpeechRecognizer
 
+    @State private var isPlaying = false
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -32,15 +34,29 @@ struct ReviseView: View {
                 
                 Spacer()
                 
-                if let recodringURL = url {
-                    Text("Recording:")
-                    Button("Play") {
-                        speechRecognizer.playRecording(url: recodringURL)
+                if let recordingURL = url {
+                    Text("Audio Record")
+                    Button(action: {
+                        if isPlaying {
+                            speechRecognizer.stopPlaying()  // Stop playback if currently playing
+                        } else {
+                            speechRecognizer.playRecording(url: recordingURL)  // Play recording
+                        }
+                        isPlaying.toggle()  // Toggle the play state
+                    }) {
+                        Text(isPlaying ? "Stop" : "Play")
+                            .padding()
+                            .background(isPlaying ? Color.red : Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
                     }
-                    .padding()
-                    .background(Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
+                    .onReceive(speechRecognizer.objectWillChange) {
+                        if speechRecognizer.audioPlayer?.isPlaying == false {
+                            isPlaying = false  // Reset play state when playback
+                        }
+                    }
+                } else {
+                    Text("No recording available.")
                 }
                 
                 ScrollView {

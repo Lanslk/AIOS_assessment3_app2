@@ -10,7 +10,7 @@ import SwiftUI
 import Speech
 import AVFoundation
 
-class SpeechRecognizer: ObservableObject {
+class SpeechRecognizer: NSObject, ObservableObject, AVAudioPlayerDelegate {
     private var speechRecognizer = SFSpeechRecognizer()
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
     private var recognitionTask: SFSpeechRecognitionTask?
@@ -21,7 +21,7 @@ class SpeechRecognizer: ObservableObject {
     
     // Recording-related properties
     private var audioRecorder: AVAudioRecorder?
-    private var audioPlayer: AVAudioPlayer?
+    public var audioPlayer: AVAudioPlayer?
     let audioSession = AVAudioSession.sharedInstance()
     
     func startRecording() {
@@ -130,11 +130,31 @@ class SpeechRecognizer: ObservableObject {
     
     // Play a selected recording
     func playRecording(url: URL) {
-        do {
-            audioPlayer = try AVAudioPlayer(contentsOf: url)
-            audioPlayer?.play()
-        } catch {
-            print("Could not play audio: \(error)")
+        print("Trying to play audio at URL: \(url)")
+            
+        if FileManager.default.fileExists(atPath: url.path) {
+            do {
+                audioPlayer = try AVAudioPlayer(contentsOf: url)
+                audioPlayer?.delegate = self
+                audioPlayer?.play()
+            } catch {
+                print("Could not play audio: \(error)")
+            }
+        } else {
+            print("Audio file not found at \(url.path)")
+        }
+    }
+    
+    // Stop playing
+    func stopPlaying() {
+        audioPlayer?.stop()
+    }
+    
+    // AVAudioPlayerDelegate method that triggers when playback finishes
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        // Notify when the playback finishes
+        DispatchQueue.main.async {
+            self.objectWillChange.send()
         }
     }
     

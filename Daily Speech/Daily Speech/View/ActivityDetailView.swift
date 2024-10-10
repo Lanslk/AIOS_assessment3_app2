@@ -13,7 +13,10 @@ struct ActivityDetailView: View {
     @State var activity: Activity
     @State private var updatedTopic: String
     @State private var updatedContent: String
+    @StateObject private var speechRecognizer = SpeechRecognizer()
+    
     @Environment(\.dismiss) private var dismiss
+    @State private var isPlaying = false
     
     init(activity: Activity) {
         _activity = State(initialValue: activity)
@@ -38,6 +41,34 @@ struct ActivityDetailView: View {
                     RoundedRectangle(cornerRadius: 8)
                         .stroke(Color.gray.opacity(0.5), lineWidth: 1)
                 )
+            
+            Spacer()
+            
+            if let recordingURL = activity.url {
+                Text("Audio Record:")
+                Button(action: {
+                    if isPlaying {
+                        speechRecognizer.stopPlaying()  // Stop playback if currently playing
+                    } else {
+                        print(recordingURL)
+                        speechRecognizer.playRecording(url: recordingURL)  // Play recording
+                    }
+                    isPlaying.toggle()  // Toggle the play state
+                }) {
+                    Text(isPlaying ? "Stop" : "Play")
+                        .padding()
+                        .background(isPlaying ? Color.red : Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }
+                .onReceive(speechRecognizer.objectWillChange) {
+                    if speechRecognizer.audioPlayer?.isPlaying == false {
+                        isPlaying = false  // Reset play state when playback
+                    }
+                }
+            } else {
+                Text("No recording available.")
+            }
             
             Spacer()
             
