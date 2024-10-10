@@ -16,11 +16,12 @@ let mockActivities = [
 ]
 
 // save activity into local spacce
-func saveActivity(topic: String, content: String, context: ModelContext) {
+func saveActivity(topic: String, content: String, context: ModelContext, url: URL?) {
     
     do {
         // Insert the new record
         let newActivity = Activity(topic: topic, content: content)
+        newActivity.url = url
         context.insert(newActivity)
         
         // Save changes to the context

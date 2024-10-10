@@ -13,6 +13,7 @@ class Activity: Identifiable {
     var id: String
     var topic: String
     var content: String
+    var url: URL? = nil
     
     init(topic: String, content: String) {
         id = UUID().uuidString

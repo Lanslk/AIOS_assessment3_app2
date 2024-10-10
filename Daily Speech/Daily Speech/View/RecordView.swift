@@ -18,6 +18,7 @@ struct RecordView: View {
     @State private var navigateToReviseView = false
     
     @State private var revisedContent = ""
+    @State private var url: URL? = nil
     
     var body: some View {
         NavigationStack {
@@ -52,11 +53,13 @@ struct RecordView: View {
                     isRecording.toggle()
                     if isRecording {
                         speechRecognizer.startRecording()
+                        url = speechRecognizer.startAudioRecording()
                     } else {
                         speechRecognizer.stopRecording()
+                        speechRecognizer.stopAudioRecording()
                     }
                 }) {
-                    Text(isRecording ? "Stop Recording" : "Start Recording")
+                    Image(systemName: "mic")
                         .padding()
                         .background(isRecording ? Color.red : Color.green)
                         .foregroundColor(.white)
@@ -80,7 +83,7 @@ struct RecordView: View {
                         
                     }
                 }, label: {
-                    Text("Revise by AI")
+                    Text("Revised by AI")
                         .font(.title)
                 })
                 .alert(isPresented: Binding<Bool>(
@@ -106,7 +109,7 @@ struct RecordView: View {
                 }
             }
             .navigationDestination(isPresented: $navigateToReviseView) {
-                ReviseView(topic: $topic, origin: $speechRecognizer.recognizedText,content: $revisedContent)
+                ReviseView(topic: $topic, origin: $speechRecognizer.recognizedText,content: $revisedContent, url: $url)
             }
         }
         

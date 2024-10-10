@@ -13,10 +13,12 @@ struct ReviseView: View {
     @Binding public var topic: String
     @Binding public var origin: String
     @Binding public var content: String
+    @Binding public var url: URL?
     
     @State private var showAlert = false
     @State private var navigateToSavedView = false
-    
+    @StateObject private var speechRecognizer = SpeechRecognizer()  // Create an instance of SpeechRecognizer
+
     var body: some View {
         NavigationStack {
             VStack {
@@ -29,6 +31,17 @@ struct ReviseView: View {
                 Text("Topic: \(topic)")
                 
                 Spacer()
+                
+                if let recodringURL = url {
+                    Text("Recording:")
+                    Button("Play") {
+                        speechRecognizer.playRecording(url: recodringURL)
+                    }
+                    .padding()
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+                }
                 
                 ScrollView {
                     Text("Original")
@@ -59,7 +72,7 @@ struct ReviseView: View {
                         showAlert = true  // Show alert if topic is empty
                     } else {
                         // navigate to RecordView
-                        saveActivity(topic: topic, content: content, context: context)
+                        saveActivity(topic: topic, content: content, context: context, url: url)
                         navigateToSavedView = true
                     }
                 }, label: {
@@ -88,7 +101,8 @@ struct ReviseView: View {
     ReviseView(
             topic: .constant("Introduce yourself"),
             origin: .constant("Introducing yourself"),
-            content: .constant("Introduce yourself")
+            content: .constant("Introduce yourself"),
+            url: .constant(URL.applicationDirectory)
         )
         .modelContainer(for: Activity.self)
 }
