@@ -59,11 +59,6 @@ func sendChatGPTRequest(message: String, completion: @escaping (String?) -> Void
             return
         }
         
-//        if let httpResponse = response as? HTTPURLResponse {
-//            print("HTTP Status Code: \(httpResponse.statusCode)")
-//            print("Response: \(String(data: data, encoding: .utf8) ?? "")")
-//        }
-        
         // Decode the response
         do {
             let chatResponse = try JSONDecoder().decode(ChatGPTResponse.self, from: data)
