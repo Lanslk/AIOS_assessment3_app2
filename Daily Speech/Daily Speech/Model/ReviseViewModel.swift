@@ -13,9 +13,7 @@ func saveActivity(topic: String, content: String, context: ModelContext) {
     
     do {
         // Insert the new record
-        let newActivity = Activity()
-        newActivity.topic = topic
-        newActivity.content = content
+        let newActivity = Activity(topic: topic, content: content)
         context.insert(newActivity)
         
         // Save changes to the context

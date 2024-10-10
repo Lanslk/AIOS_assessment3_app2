@@ -11,11 +11,13 @@ import SwiftData
 @Model
 class Activity: Identifiable {
     var id: String
-    var topic: String = ""
-    var content: String = ""
+    var topic: String
+    var content: String
     
-    init() {
+    init(topic: String, content: String) {
         id = UUID().uuidString
+        self.topic = topic
+        self.content = content
     }
 }
 

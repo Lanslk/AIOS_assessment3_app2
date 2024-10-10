@@ -17,7 +17,6 @@ struct MainView: View {
                 
                 Spacer()
                 HStack {
-                    //Image(systemName: )
                     NavigationLink(
                         destination: TopicView(),
                         label: {
@@ -27,7 +26,6 @@ struct MainView: View {
                 }
 
                 HStack {
-                    //Image(systemName: "book.pages")
                     NavigationLink(
                         destination: SavedView(),
                         label: {

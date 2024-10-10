@@ -63,7 +63,7 @@ struct ReviseView: View {
                         navigateToSavedView = true
                     }
                 }, label: {
-                    Text("Save Speech")
+                    Text("Save")
                         .font(.title)
                 })
                 .alert(isPresented: $showAlert) {
@@ -85,5 +85,10 @@ struct ReviseView: View {
 }
 
 #Preview {
-    ReviseView(topic: .constant("Introduce yourself"), origin: .constant("Introducing yourself"), content: .constant("Introduce yourself"))
+    ReviseView(
+            topic: .constant("Introduce yourself"),
+            origin: .constant("Introducing yourself"),
+            content: .constant("Introduce yourself")
+        )
+        .modelContainer(for: Activity.self)
 }

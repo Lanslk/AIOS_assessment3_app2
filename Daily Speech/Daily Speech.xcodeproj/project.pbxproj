@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		C70386CA2CB4AD910071519E /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C70386C92CB4AD910071519E /* FirebaseAnalytics */; };
+		C70386D52CB4B0730071519E /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = C70386D42CB4B0730071519E /* FirebaseAuth */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		C71FD33F2CB20B7500BDDB7C /* Daily Speech.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Daily Speech.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,16 +28,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C70386CA2CB4AD910071519E /* FirebaseAnalytics in Frameworks */,
+				C70386D52CB4B0730071519E /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C70386D32CB4B0730071519E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		C71FD3362CB20B7500BDDB7C = {
 			isa = PBXGroup;
 			children = (
 				C71FD3412CB20B7500BDDB7C /* Daily Speech */,
+				C70386D32CB4B0730071519E /* Frameworks */,
 				C71FD3402CB20B7500BDDB7C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -65,6 +80,8 @@
 			);
 			name = "Daily Speech";
 			packageProductDependencies = (
+				C70386C92CB4AD910071519E /* FirebaseAnalytics */,
+				C70386D42CB4B0730071519E /* FirebaseAuth */,
 			);
 			productName = "Daily Speech";
 			productReference = C71FD33F2CB20B7500BDDB7C /* Daily Speech.app */;
@@ -94,6 +111,9 @@
 			);
 			mainGroup = C71FD3362CB20B7500BDDB7C;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				C70386C82CB4AD910071519E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = C71FD3402CB20B7500BDDB7C /* Products */;
 			projectDirPath = "";
@@ -328,6 +348,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C70386C82CB4AD910071519E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "http://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.3.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C70386C92CB4AD910071519E /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C70386C82CB4AD910071519E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		C70386D42CB4B0730071519E /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C70386C82CB4AD910071519E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C71FD3372CB20B7500BDDB7C /* Project object */;
 }

@@ -27,7 +27,25 @@ struct SavedView: View {
                             Text(data.content)
                         } label: {
                             HStack {
-                                Text(String(data.topic))
+                                Text(String(data.topic)
+                                )
+                            }
+                        }
+                        .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                            // Edit button
+                            Button(action: {
+                                // Handle the edit action here
+                            }) {
+                                Label("Edit", systemImage: "pencil")
+                            }
+                            .tint(.blue)  // Optional: set the edit button color
+                            
+                            // Delete button
+                            Button(role: .destructive, action: {
+                                // Handle the delete action here
+                                //deleteActivity(data)
+                            }) {
+                                Label("Delete", systemImage: "trash")
                             }
                         }
                     }
