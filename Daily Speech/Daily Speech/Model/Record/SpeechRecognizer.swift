@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 import Speech
 import AVFoundation
+import FirebaseStorage
 
 class SpeechRecognizer: NSObject, ObservableObject, AVAudioPlayerDelegate {
     private var speechRecognizer = SFSpeechRecognizer()
@@ -38,7 +39,6 @@ class SpeechRecognizer: NSObject, ObservableObject, AVAudioPlayerDelegate {
         }
         
         // Configure audio session
-        let audioSession = AVAudioSession.sharedInstance()
         try? audioSession.setCategory(.record, mode: .measurement, options: .duckOthers)
         try? audioSession.setActive(true, options: .notifyOthersOnDeactivation)
         
@@ -128,10 +128,10 @@ class SpeechRecognizer: NSObject, ObservableObject, AVAudioPlayerDelegate {
         audioRecorder?.stop()
     }
     
-    // Play a selected recording
+    // Play a selected recording from local
     func playRecording(url: URL) {
         print("Trying to play audio at URL: \(url)")
-            
+        
         if FileManager.default.fileExists(atPath: url.path) {
             do {
                 audioPlayer = try AVAudioPlayer(contentsOf: url)
@@ -145,6 +145,37 @@ class SpeechRecognizer: NSObject, ObservableObject, AVAudioPlayerDelegate {
         }
     }
     
+    // Play a selected recording from cloud
+    func playRecordingFromCloud(url: URL) {
+        print("Trying to play audio at URL: \(url)")
+        
+        let firebaseFilePath = "audio/\(url.lastPathComponent)"
+        
+        downloadAudioFromFirebase(audioRefPath: firebaseFilePath) { result in
+            switch result {
+            case .success(let fileURL):
+                print("Audio downloaded successfully: \(fileURL)")
+                if FileManager.default.fileExists(atPath: fileURL.path) {
+                    do {
+                        // Configure audio session
+                        try? self.audioSession.setCategory(.playAndRecord, mode: .measurement, options: [.defaultToSpeaker, .allowBluetooth])
+                        try? self.audioSession.setActive(true)
+                        
+                        self.audioPlayer = try AVAudioPlayer(contentsOf: fileURL)
+                        self.audioPlayer?.delegate = self
+                        self.audioPlayer?.play()
+                    } catch {
+                        print("Could not play audio: \(error)")
+                    }
+                } else {
+                    print("Audio file not found at \(fileURL.path)")
+                }
+            case .failure(let error):
+                print("Failed to download audio: \(error)")
+            }
+        }
+    }
+    
     // Stop playing
     func stopPlaying() {
         audioPlayer?.stop()
@@ -155,6 +186,28 @@ class SpeechRecognizer: NSObject, ObservableObject, AVAudioPlayerDelegate {
         // Notify when the playback finishes
         DispatchQueue.main.async {
             self.objectWillChange.send()
+        }
+    }
+    
+    // download audio from firebase cloud
+    func downloadAudioFromFirebase(audioRefPath: String, completion: @escaping (Result<URL, Error>) -> Void) {
+        // Create a storage reference
+        let storageRef = Storage.storage().reference()
+        let audioRef = storageRef.child(audioRefPath)
+        
+        // Create a temporary URL to save the downloaded audio file
+        let temporaryDir = FileManager.default.temporaryDirectory
+        let localURL = temporaryDir.appendingPathComponent(UUID().uuidString + ".m4a")
+        
+        // Download the file
+        audioRef.write(toFile: localURL) { url, error in
+            if let error = error {
+                print("Error downloading file: \(error)")
+                completion(.failure(error))
+            } else {
+                print("File downloaded successfully: \(localURL)")
+                completion(.success(localURL))
+            }
         }
     }
     

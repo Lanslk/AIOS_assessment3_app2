@@ -50,8 +50,7 @@ struct ActivityDetailView: View {
                     if isPlaying {
                         speechRecognizer.stopPlaying()  // Stop playback if currently playing
                     } else {
-                        print(recordingURL)
-                        speechRecognizer.playRecording(url: recordingURL)  // Play recording
+                        speechRecognizer.playRecordingFromCloud(url: recordingURL)  // Play recording
                     }
                     isPlaying.toggle()  // Toggle the play state
                 }) {

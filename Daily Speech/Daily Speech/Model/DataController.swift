@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftData
+import FirebaseStorage
 
 
 let mockActivities = [
@@ -21,7 +22,20 @@ func saveActivity(topic: String, content: String, context: ModelContext, url: UR
     do {
         // Insert the new record
         let newActivity = Activity(topic: topic, content: content)
-        newActivity.url = url
+ 
+        if let audioURL = url {
+            // Upload the audio file to Firebase
+            uploadAudioToFirebase(audioURL: audioURL) { result in
+                switch result {
+                case .success(let downloadURL):
+                    newActivity.url = downloadURL
+                    print("Audio uploaded successfully: \(downloadURL)")
+                case .failure(let error):
+                    print("Failed to upload audio: \(error)")
+                }
+            }
+        }
+        
         context.insert(newActivity)
         
         // Save changes to the context
@@ -50,5 +64,33 @@ func deleteActivity(activity: Activity, context: ModelContext) {
         try context.save()
     } catch {
         print("Failed to delete activity: \(error)")
+    }
+}
+
+func uploadAudioToFirebase(audioURL: URL, completion: @escaping (Result<URL, Error>) -> Void) {
+    // Create a storage reference
+    let storageRef = Storage.storage().reference()
+    
+    // Create a reference for the audio file in Firebase Storage
+    let audioRef = storageRef.child("audio/\(UUID().uuidString).m4a")
+    
+    // Upload the file to Firebase Storage
+    audioRef.putFile(from: audioURL, metadata: nil) { metadata, error in
+        if let error = error {
+            print("Error uploading file: \(error)")
+            completion(.failure(error))
+            return
+        }
+        
+        // Fetch the download URL of the uploaded audio file
+        audioRef.downloadURL { url, error in
+            if let error = error {
+                print("Error getting download URL: \(error)")
+                completion(.failure(error))
+            } else if let url = url {
+                print("File uploaded successfully, download URL: \(url)")
+                completion(.success(url))
+            }
+        }
     }
 }
