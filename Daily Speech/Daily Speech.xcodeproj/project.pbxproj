@@ -10,6 +10,7 @@
 		C70386CA2CB4AD910071519E /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C70386C92CB4AD910071519E /* FirebaseAnalytics */; };
 		C70386D52CB4B0730071519E /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = C70386D42CB4B0730071519E /* FirebaseAuth */; };
 		C7327B252CB8911000D96162 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = C7327B242CB8911000D96162 /* FirebaseStorage */; };
+		C7327BB52CB8D3CE00D96162 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = C7327BB42CB8D3CE00D96162 /* FirebaseFirestore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C70386CA2CB4AD910071519E /* FirebaseAnalytics in Frameworks */,
+				C7327BB52CB8D3CE00D96162 /* FirebaseFirestore in Frameworks */,
 				C70386D52CB4B0730071519E /* FirebaseAuth in Frameworks */,
 				C7327B252CB8911000D96162 /* FirebaseStorage in Frameworks */,
 			);
@@ -85,6 +87,7 @@
 				C70386C92CB4AD910071519E /* FirebaseAnalytics */,
 				C70386D42CB4B0730071519E /* FirebaseAuth */,
 				C7327B242CB8911000D96162 /* FirebaseStorage */,
+				C7327BB42CB8D3CE00D96162 /* FirebaseFirestore */,
 			);
 			productName = "Daily Speech";
 			productReference = C71FD33F2CB20B7500BDDB7C /* Daily Speech.app */;
@@ -380,6 +383,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C70386C82CB4AD910071519E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
+		};
+		C7327BB42CB8D3CE00D96162 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C70386C82CB4AD910071519E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

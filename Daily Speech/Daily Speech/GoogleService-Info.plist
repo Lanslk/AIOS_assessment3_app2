@@ -3,28 +3,28 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyAeoKMLuTovS4UTOMC8JVbztDRGPegNmho</string>
+	<string>AIzaSyBY2sKWiqD65pNyd7sVU9WbiGO0uAlM87M</string>
 	<key>GCM_SENDER_ID</key>
-	<string>455840507645</string>
+	<string>307750563202</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>uts.lenidv.firebaseAuthenticate</string>
+	<string>com.uts.yuteng</string>
 	<key>PROJECT_ID</key>
-	<string>ios-app-development-18bb9</string>
+	<string>ios-app-assessment3</string>
 	<key>STORAGE_BUCKET</key>
-	<string>ios-app-development-18bb9.appspot.com</string>
+	<string>ios-app-assessment3.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_GCM_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:455840507645:ios:49dd44e79d797963b48094</string>
+	<string>1:307750563202:ios:b426e421814c365018339b</string>
 </dict>
 </plist>

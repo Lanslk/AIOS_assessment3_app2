@@ -38,6 +38,16 @@ struct MainView: View {
                         })
                     
                 }
+                
+                HStack {
+                    NavigationLink(
+                        destination: ShareView()
+                            .environmentObject(userAccount),
+                        label: {
+                            CustomRowView(buttonTitle: "Explore speeches", imageName: "rectangle.3.group.bubble")
+                        })
+                    
+                }
                 Spacer()
             }
             .font(.title)

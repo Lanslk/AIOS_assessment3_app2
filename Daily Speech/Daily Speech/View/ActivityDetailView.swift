@@ -42,6 +42,13 @@ struct ActivityDetailView: View {
                         .stroke(Color.gray.opacity(0.5), lineWidth: 1)
                 )
             
+            Toggle (
+                "Share it to Others",
+                systemImage: "square.and.arrow.up",
+                isOn: $activity.share
+            )
+            .padding()
+            
             Spacer()
             
             if let recordingURL = activity.url {
@@ -73,7 +80,7 @@ struct ActivityDetailView: View {
             
             HStack {
                 Button("Save") {
-                    updateActivity(activity: activity, newTopic: updatedTopic, newContent: updatedContent, context: context)
+                    updateActivity(activity: activity, newTopic: updatedTopic, newContent: updatedContent, newShare: activity.share, context: context)
                     dismiss()
                 }
                 .padding()

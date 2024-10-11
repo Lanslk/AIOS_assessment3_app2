@@ -8,13 +8,7 @@
 import Foundation
 import SwiftData
 import FirebaseStorage
-
-
-let mockActivities = [
-    Activity(topic: "Mock Topic 1", content: "This is mock content 1.", account: "test@gmail.com"),
-    Activity(topic: "Mock Topic 2", content: "This is mock content 2.", account: "test@gmail.com"),
-    Activity(topic: "Mock Topic 3", content: "This is mock content 3.", account: "test@gmail.com")
-]
+import FirebaseFirestore
 
 // save activity into local spacce
 func saveActivity(topic: String, content: String, account: String, context: ModelContext, url: URL?) {
@@ -47,11 +41,18 @@ func saveActivity(topic: String, content: String, account: String, context: Mode
 }
 
 // Update activity with new values
-func updateActivity(activity: Activity, newTopic: String, newContent: String, context: ModelContext) {
+func updateActivity(activity: Activity, newTopic: String, newContent: String, newShare: Bool, context: ModelContext) {
     activity.topic = newTopic
     activity.content = newContent
+    activity.share = newShare
     do {
         try context.save()
+        if (newShare == true) {
+            uploadActivityToFirebase(activity: activity)
+        } else {
+            deleteActivityFromFirebase(activityID: activity.id)
+        }
+        
     } catch {
         print("Failed to update activity: \(error)")
     }
@@ -62,8 +63,45 @@ func deleteActivity(activity: Activity, context: ModelContext) {
     context.delete(activity)
     do {
         try context.save()
+        deleteActivityFromFirebase(activityID: activity.id)
     } catch {
         print("Failed to delete activity: \(error)")
+    }
+}
+
+// Upload activity to firebase (share to cloud)
+func uploadActivityToFirebase(activity: Activity) {
+    let db = Firestore.firestore()
+    let activityData: [String: Any] = [
+        "id": activity.id,
+        "topic": activity.topic,
+        "content": activity.content,
+        "url": activity.url?.absoluteString ?? "",
+        "userAccount": activity.account,
+        "share": activity.share
+    ]
+    
+    // This will either update or create a new document with the same ID
+    db.collection("activities").document(activity.id).setData(activityData, merge: true) { error in
+        if let error = error {
+            print("Error uploading activity: \(error)")
+        } else {
+            print("Activity successfully uploaded!")
+        }
+    }
+}
+
+// delete activity to firebase
+func deleteActivityFromFirebase(activityID: String) {
+    let db = Firestore.firestore()
+    
+    // Reference the document by its ID and delete it
+    db.collection("activities").document(activityID).delete { error in
+        if let error = error {
+            print("Error deleting activity: \(error)")
+        } else {
+            print("Activity successfully deleted!")
+        }
     }
 }
 
@@ -93,4 +131,66 @@ func uploadAudioToFirebase(audioURL: URL, completion: @escaping (Result<URL, Err
             }
         }
     }
+}
+
+// Function to fetch data from Firestore
+//class DataController {
+//    private
+//
+//    // Function to fetch data from Firestore and return the result through a closure
+//    func fetchActivities(for userAccount: String, limit: Int = 10, completion: @escaping ([Activity]) -> Void) {
+//        let db = Firestore.firestore()
+//        db.collection("activities")
+//            .limit(to: limit)
+//            .getDocuments { (querySnapshot, error) in
+//                if let error = error {
+//                    print("Error fetching activities: \(error)")
+//                    completion([])  // Return an empty array on error
+//                } else {
+//                    let activities = querySnapshot?.documents.compactMap { document -> Activity? in
+//                        let data = document.data()
+//                        let id = document.documentID
+//                        let topic = data["topic"] as? String ?? "No Topic"
+//                        let content = data["content"] as? String ?? ""
+//                        let urlString = data["url"] as? String
+//                        let url = URL(string: urlString ?? "")
+//                        let share = data["share"] as? Bool ?? false
+//                        let userAccount = data["userAccount"] as? String ?? ""
+//                        
+//                        return Activity(id: id, topic: topic, content: content, url: url, share: share, userAccount: userAccount)
+//                    } ?? []
+//                    completion(activities)  // Return the fetched activities
+//                }
+//            }
+//
+//    }
+//}
+
+
+func fetchActivities(limit: Int = 10, completion: @escaping ([Activity]) -> Void) {
+    let db = Firestore.firestore()
+    
+    // Explicitly specify that we are using the `getDocuments(completion:)` method
+    db.collection("activities")
+        .limit(to: limit)
+        .getDocuments(completion: { (querySnapshot, error) in  // Explicit completion label
+            if let error = error {
+                print("Error fetching activities: \(error)")
+                completion([])  // Return an empty array on error
+            } else {
+                let activities = querySnapshot?.documents.compactMap { document -> Activity? in
+                    let data = document.data()
+                    let id = document.documentID
+                    let topic = data["topic"] as? String ?? "No Topic"
+                    let content = data["content"] as? String ?? ""
+                    let urlString = data["url"] as? String
+                    let url = URL(string: urlString ?? "")
+                    let share = data["share"] as? Bool ?? false
+                    let userAccount = data["userAccount"] as? String ?? ""
+                    
+                    return Activity(topic: topic, content: content, account: userAccount)
+                } ?? []
+                completion(activities)  // Return the fetched activities
+            }
+        })
 }
