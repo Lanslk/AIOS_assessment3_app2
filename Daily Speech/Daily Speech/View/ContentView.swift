@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct ContentView: View {
-    
     @StateObject private var viewModel = ContentViewModel()
+    @StateObject var userAccount = UserAccount()
+    
     @State private var navigateToMainView = false
     
     @State private var errorMessage: String? = nil
@@ -33,13 +34,6 @@ struct ContentView: View {
                     .background(Color.gray.opacity(0.4))
                     .cornerRadius(10)
                 
-//                NavigationLink(
-//                    destination: MainView(),
-//                    label: {
-//                        CustomRowView(buttonTitle: "Sign in", imageName: "")
-//                        })
-//                .padding()
-                
                 HStack {
                     Spacer()
                     Button {
@@ -47,6 +41,7 @@ struct ContentView: View {
                         Task {
                             do {
                                 try await viewModel.signUp()
+                                userAccount.email = viewModel.email
                                 navigateToMainView = true
                                 return
                             } catch {
@@ -77,6 +72,7 @@ struct ContentView: View {
                         Task {
                             do {
                                 try await viewModel.signIn()
+                                userAccount.email = viewModel.email
                                 navigateToMainView = true
                                 return
                             } catch {
@@ -106,6 +102,7 @@ struct ContentView: View {
             }
             .navigationDestination(isPresented: $navigateToMainView) {
                 MainView()
+                    .environmentObject(userAccount)
             }
         }
         .padding()

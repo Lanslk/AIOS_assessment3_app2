@@ -10,6 +10,9 @@ import SwiftData
 
 struct ReviseView: View {
     @Environment(\.modelContext) private var context  // Get context from the environment
+    
+    @EnvironmentObject var userAccount: UserAccount
+    
     @Binding public var topic: String
     @Binding public var origin: String
     @Binding public var content: String
@@ -88,7 +91,7 @@ struct ReviseView: View {
                         showAlert = true  // Show alert if topic is empty
                     } else {
                         // navigate to RecordView
-                        saveActivity(topic: topic, content: content, context: context, url: url)
+                        saveActivity(topic: topic, content: content, account: userAccount.email, context: context, url: url)
                         navigateToSavedView = true
                     }
                 }, label: {
@@ -104,6 +107,7 @@ struct ReviseView: View {
                 }
                 .navigationDestination(isPresented: $navigateToSavedView) {
                     SavedView()
+                        .environmentObject(userAccount)
                 }
                 
             }

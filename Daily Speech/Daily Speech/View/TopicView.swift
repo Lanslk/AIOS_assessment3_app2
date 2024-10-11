@@ -10,6 +10,8 @@ import SwiftUI
 struct TopicView: View {
     @State private var yourTopic = ""
     
+    @EnvironmentObject var userAccount: UserAccount
+    
     @State private var showAlert = false
     @State private var navigateToRecordView = false
     
@@ -49,6 +51,7 @@ struct TopicView: View {
             .padding()
             .navigationDestination(isPresented: $navigateToRecordView) {
                 RecordView(topic: $yourTopic)
+                    .environmentObject(userAccount)
             }
             
             List {

@@ -96,5 +96,5 @@ struct ActivityDetailView: View {
 }
 
 #Preview {
-    ActivityDetailView(activity: Activity(topic: "Sample Topic", content: "Sample Content"))
+    ActivityDetailView(activity: Activity(topic: "Sample Topic", content: "Sample Content", account:"test@gmail.com"))
 }

@@ -10,6 +10,8 @@ import SwiftUI
 struct RecordView: View {
     
     @Binding public var topic: String
+    @EnvironmentObject var userAccount: UserAccount
+    
     @StateObject private var speechRecognizer = SpeechRecognizer()
     @State private var isRecording = false
     
@@ -110,6 +112,7 @@ struct RecordView: View {
             }
             .navigationDestination(isPresented: $navigateToReviseView) {
                 ReviseView(topic: $topic, origin: $speechRecognizer.recognizedText,content: $revisedContent, url: $url)
+                    .environmentObject(userAccount)
             }
         }
         

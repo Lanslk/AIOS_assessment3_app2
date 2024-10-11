@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct MainView: View {
+    
+    @EnvironmentObject var userAccount: UserAccount
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -18,7 +21,8 @@ struct MainView: View {
                 Spacer()
                 HStack {
                     NavigationLink(
-                        destination: TopicView(),
+                        destination: TopicView()
+                            .environmentObject(userAccount),
                         label: {
                             CustomRowView(buttonTitle: "Start practice", imageName: "rectangle.and.pencil.and.ellipsis")
                             })
@@ -27,7 +31,8 @@ struct MainView: View {
 
                 HStack {
                     NavigationLink(
-                        destination: SavedView(),
+                        destination: SavedView()
+                            .environmentObject(userAccount),
                         label: {
                             CustomRowView(buttonTitle: "Previous practice", imageName: "book.pages")
                         })

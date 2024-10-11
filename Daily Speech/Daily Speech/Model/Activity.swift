@@ -14,11 +14,14 @@ class Activity: Identifiable {
     var topic: String
     var content: String
     var url: URL? = nil
+    var account: String
+    var share: Bool = false
     
-    init(topic: String, content: String) {
+    init(topic: String, content: String, account: String) {
         id = UUID().uuidString
         self.topic = topic
         self.content = content
+        self.account = account
     }
 }
 

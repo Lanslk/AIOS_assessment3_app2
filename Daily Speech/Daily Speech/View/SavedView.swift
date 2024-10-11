@@ -12,6 +12,7 @@ struct SavedView: View {
     @Environment(\.modelContext) private var context
     @Query var activities: [Activity]
     
+    @EnvironmentObject var userAccount: UserAccount
     
     var body: some View {
         VStack {
@@ -22,7 +23,7 @@ struct SavedView: View {
             
             ScrollView {
                 LazyVStack {
-                    ForEach(Array(activities.prefix(10).enumerated()), id: \.element) { index, data in
+                    ForEach(Array(activities.filter { $0.account == userAccount.email }.prefix(10).enumerated()), id: \.element) { index, data in
                         NavigationLink(destination: ActivityDetailView(activity: data)) {
                             HStack {
                                 Text(data.topic)

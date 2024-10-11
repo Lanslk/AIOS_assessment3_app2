@@ -11,17 +11,17 @@ import FirebaseStorage
 
 
 let mockActivities = [
-    Activity(topic: "Mock Topic 1", content: "This is mock content 1."),
-    Activity(topic: "Mock Topic 2", content: "This is mock content 2."),
-    Activity(topic: "Mock Topic 3", content: "This is mock content 3.")
+    Activity(topic: "Mock Topic 1", content: "This is mock content 1.", account: "test@gmail.com"),
+    Activity(topic: "Mock Topic 2", content: "This is mock content 2.", account: "test@gmail.com"),
+    Activity(topic: "Mock Topic 3", content: "This is mock content 3.", account: "test@gmail.com")
 ]
 
 // save activity into local spacce
-func saveActivity(topic: String, content: String, context: ModelContext, url: URL?) {
+func saveActivity(topic: String, content: String, account: String, context: ModelContext, url: URL?) {
     
     do {
         // Insert the new record
-        let newActivity = Activity(topic: topic, content: content)
+        let newActivity = Activity(topic: topic, content: content, account: account)
  
         if let audioURL = url {
             // Upload the audio file to Firebase
