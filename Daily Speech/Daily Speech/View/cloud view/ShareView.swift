@@ -12,7 +12,7 @@ struct ShareView: View {
 
     var body: some View {
         VStack {
-            Text("Saved Speech")
+            Text("Shared Speech")
                 .foregroundColor(.mint)
                 .font(.title)
             Spacer()

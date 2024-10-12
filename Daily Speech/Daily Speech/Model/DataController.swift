@@ -187,8 +187,9 @@ func fetchActivities(limit: Int = 10, completion: @escaping ([Activity]) -> Void
                     let url = URL(string: urlString ?? "")
                     let share = data["share"] as? Bool ?? false
                     let userAccount = data["userAccount"] as? String ?? ""
-                    
-                    return Activity(topic: topic, content: content, account: userAccount)
+                    var activity = Activity(topic: topic, content: content, account: userAccount)
+                    activity.url = url
+                    return activity
                 } ?? []
                 completion(activities)  // Return the fetched activities
             }

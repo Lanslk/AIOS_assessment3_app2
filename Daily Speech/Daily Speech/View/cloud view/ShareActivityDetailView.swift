@@ -11,6 +11,9 @@ import SwiftData
 struct ShareActivityDetailView: View {
     @State var activity: Activity
     
+    @StateObject private var speechRecognizer = SpeechRecognizer()
+    @State private var isPlaying = false
+    
     var body: some View {
         VStack {
             Text("Shared Speech")
@@ -32,6 +35,31 @@ struct ShareActivityDetailView: View {
                     RoundedRectangle(cornerRadius: 8)
                         .stroke(Color.gray.opacity(0.5), lineWidth: 1)
                 )
+            
+            if let recordingURL = activity.url {
+                Text("Audio Record:")
+                Button(action: {
+                    if isPlaying {
+                        speechRecognizer.stopPlaying()  // Stop playback if currently playing
+                    } else {
+                        speechRecognizer.playRecordingFromCloud(url: recordingURL)  // Play recording
+                    }
+                    isPlaying.toggle()  // Toggle the play state
+                }) {
+                    Text(isPlaying ? "Stop" : "Play")
+                        .padding()
+                        .background(isPlaying ? Color.red : Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }
+                .onReceive(speechRecognizer.objectWillChange) {
+                    if speechRecognizer.audioPlayer?.isPlaying == false {
+                        isPlaying = false  // Reset play state when playback
+                    }
+                }
+            } else {
+                Text("No recording available.")
+            }
             
             Spacer()
         }

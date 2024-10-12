@@ -44,7 +44,7 @@ struct MainView: View {
                         destination: ShareView()
                             .environmentObject(userAccount),
                         label: {
-                            CustomRowView(buttonTitle: "Explore speeches", imageName: "rectangle.3.group.bubble")
+                            CustomRowView(buttonTitle: "Shared speeches", imageName: "rectangle.3.group.bubble")
                         })
                     
                 }
