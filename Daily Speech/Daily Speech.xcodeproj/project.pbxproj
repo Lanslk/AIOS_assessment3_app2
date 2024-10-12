@@ -283,7 +283,7 @@
 				INFOPLIST_FILE = "Daily-Speech-Info.plist";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Camera usage will be done! Whenever click on button.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Microphone usage will be done! Whenever click on button.";
-				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Please allow the recognization of the speech for the testing purpose.";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Please allow the recognization of the speech.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -315,7 +315,7 @@
 				INFOPLIST_FILE = "Daily-Speech-Info.plist";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Camera usage will be done! Whenever click on button.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Microphone usage will be done! Whenever click on button.";
-				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Please allow the recognization of the speech for the testing purpose.";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Please allow the recognization of the speech.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
