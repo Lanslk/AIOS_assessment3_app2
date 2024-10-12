@@ -106,7 +106,7 @@ struct ReviseView: View {
                     )
                 }
                 .navigationDestination(isPresented: $navigateToSavedView) {
-                    SavedView()
+                    SavedView(source: "ReviseView")
                         .environmentObject(userAccount)
                 }
                 

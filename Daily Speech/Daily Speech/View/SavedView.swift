@@ -8,17 +8,24 @@
 import SwiftUI
 import SwiftData
 
+import SwiftUI
+import SwiftData
+
 struct SavedView: View {
     @Environment(\.modelContext) private var context
     @Query var activities: [Activity]
     
     @EnvironmentObject var userAccount: UserAccount
+    @Environment(\.presentationMode) var presentationMode
+    
+    // Add the source attribute
+    var source: String? = nil
     
     var body: some View {
         VStack {
             Text("Saved Speech")
                 .foregroundColor(.mint)
-                .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                .font(.title)
             Spacer()
             
             ScrollView {
@@ -36,8 +43,23 @@ struct SavedView: View {
                     }
                 }
             }
+            
+            Spacer()
+            
+            // Show Main Menu button when source is "ReviseView"
+            if source == "ReviseView" {
+                NavigationLink(destination: MainView().environmentObject(userAccount)) {
+                    Text("Main Menu")
+                        .foregroundColor(.white)
+                        .padding()
+                        .background(Color.mint)
+                        .cornerRadius(10)
+                }
+            }
         }
         .padding()
+        // Hide the back button when source is "ReviseView"
+        .navigationBarBackButtonHidden(source == "ReviseView")
     }
 }
 
