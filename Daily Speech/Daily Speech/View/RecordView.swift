@@ -17,6 +17,7 @@ struct RecordView: View {
     
     @State private var showAlert = false
     @State private var showAlertAPI = false
+    @State private var showAlertSkip = false
     @State private var navigateToReviseView = false
     
     @State private var revisedContent = ""
@@ -108,6 +109,25 @@ struct RecordView: View {
                             dismissButton: .default(Text("OK"))
                         )
                     }
+                }
+                
+                Button(action: {
+                    if speechRecognizer.recognizedText.isEmpty {
+                        showAlertSkip = true  // Show alert if content is empty
+                    } else {
+                        revisedContent = speechRecognizer.recognizedText
+                        navigateToReviseView = true
+                    }
+                }, label: {
+                    Text("Skip AI Revise")
+                        .font(.title)
+                })
+                .alert(isPresented: $showAlertSkip) {
+                    return Alert(
+                        title: Text("Content Required"),
+                        message: Text("Please enter your topic."),
+                        dismissButton: .default(Text("OK"))
+                    )
                 }
             }
             .navigationDestination(isPresented: $navigateToReviseView) {
