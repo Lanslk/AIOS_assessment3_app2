@@ -23,6 +23,16 @@ Or sign in with a test account:
 10. You can go to "Shared Speeches" to see your shared speeches and others' shared speeches.
 11. Keep practicing, and you will become fluent in the language!
 
+Error Handling Strategy for Daily Speech App
+In the Daily Speech app, ensuring a smooth user experience involves anticipating potential errors and implementing strategies to handle them effectively.
+
+1. Input Error Checks: account password validation, topic and content not left bank.
+2. API Failures: API failures can result from network issues, timeouts, or invalid API responses.
+3. Access to microphone failures: For speech recognition and recording, access to microphone sometimes can fail because of permission.
+4. Local Data Save Failures: Out of storage, data corruption.
+5. Firebase Cloud Save Failures: Permission, data conflicts.
+
 Resources:
 1. Firebase: https://firebase.google.com
 2. OpenAIAPI: https://openai.com/index/openai-api/
+
